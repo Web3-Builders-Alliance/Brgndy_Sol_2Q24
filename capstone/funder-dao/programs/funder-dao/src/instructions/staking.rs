@@ -88,7 +88,9 @@ impl<'info> Staking<'info> {
 
     pub fn unstake(&mut self) -> Result<()> {
         require!(
-            self.voter_data.is_unstaking == true && self.voter_data.unstaking_end_timestamp != None && self.voter_data.unstaking_end_timestamp = !None;,
+            self.voter_data.is_unstaking == true
+                && self.voter_data.unstaking_end_timestamp != None
+                && self.voter_data.unstaking_amount != None,
             FunderError::NoUnstakingError
         );
         require!(

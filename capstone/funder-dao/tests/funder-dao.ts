@@ -281,7 +281,7 @@ describe("funder-dao", () => {
       .then(confirmTx)
       .catch((e) => {
         console.error(e);
-        assert.equal(voterStackedAtaAmountBefore.toString(), '1400', "if failed, amounts should be equal");
+        assert.equal(voterStackedAtaAmountBefore.toString(), stakingAmount.toString(), "if failed, amounts should be equal");
       });
   });
 });

@@ -77,6 +77,7 @@ impl<'info> Staking<'info> {
                 && self.voter_data.unstaking_end_timestamp == None,
             FunderError::SecondUnstakingError
         );
+        self.voter_data.is_unstaking = true;
         self.voter_data.voting_power -= amount;
         self.voter_data.unstaking_amount = Some(amount);
         self.voter_data.unstaking_end_timestamp =
@@ -87,7 +88,7 @@ impl<'info> Staking<'info> {
 
     pub fn unstake(&mut self) -> Result<()> {
         require!(
-            self.voter_data.is_unstaking == true && self.voter_data.unstaking_end_timestamp != None,
+            self.voter_data.is_unstaking == true && self.voter_data.unstaking_end_timestamp != None && self.voter_data.unstaking_end_timestamp = !None;,
             FunderError::NoUnstakingError
         );
         require!(
@@ -113,6 +114,10 @@ impl<'info> Staking<'info> {
             config_seeds,
         );
 
-        transfer(cpi_ctx, self.voter_data.unstaking_amount.unwrap())
+        self.voter_data.is_unstaking = false;
+        self.voter_data.unstaking_end_timestamp = None;
+        transfer(cpi_ctx, self.voter_data.unstaking_amount.unwrap());
+        self.voter_data.unstaking_amount = None;
+        Ok(())
     }
 }

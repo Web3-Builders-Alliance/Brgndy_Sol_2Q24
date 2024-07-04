@@ -37,7 +37,6 @@ impl<'info> Initialize<'info> {
             bump: bumps.config,
         });
 
-
         Ok(())
     }
 }

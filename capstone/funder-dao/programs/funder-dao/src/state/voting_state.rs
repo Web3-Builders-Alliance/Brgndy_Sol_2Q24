@@ -16,5 +16,5 @@ pub struct VotingState {
 }
 
 impl Space for VotingState {
-    const INIT_SPACE: usize = 32 + 32 + 8 + 8 + 8 + 8;
+    const INIT_SPACE: usize = 32 + 32 + 8 * 8 + 1;
 }

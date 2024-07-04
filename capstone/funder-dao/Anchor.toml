@@ -5,13 +5,13 @@ resolution = true
 skip-lint = false
 
 [programs.localnet]
-funder_dao = "82WtAv6MYbr18mKCPCgjrDzCYgqPVr1bdSQdXzfgweB1"
+funder_dao = "G3MmuVQXaQBJEfGXuHzox23eyPbWNVdSnGomxxpWfFfX"
 
 [registry]
 url = "https://api.apr.dev"
 
 [provider]
-cluster = "Localnet"
+cluster = "localnet"
 wallet = "~/.config/solana/id.json"
 
 [scripts]

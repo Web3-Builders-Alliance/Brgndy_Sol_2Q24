@@ -1,3 +1,4 @@
+use crate::error::FunderError;
 use crate::state::{Config, VoterData, VoterHistory, VotingState};
 use anchor_lang::prelude::*;
 use anchor_spl::token::{Token, TokenAccount};
@@ -47,14 +48,18 @@ pub struct Voting<'info> {
 
 impl<'info> Voting<'info> {
     pub fn vote(&mut self, idea_for: bool, strategy_for: bool, ask_for: bool) -> Result<()> {
+        require!(
+            Clock::get().unwrap().unix_timestamp < self.voting_state.voting_end,
+            FunderError::VotingEndedError
+        );
         let _idea_vote = match idea_for {
             true => {
                 self.voting_state.idea_for += self.voter_data.voting_power;
-                self.voter_history.ask_for = self.voter_data.voting_power;
+                self.voter_history.idea_for = self.voter_data.voting_power;
             }
             false => {
                 self.voting_state.idea_against += self.voter_data.voting_power;
-                self.voter_history.ask_for = self.voter_data.voting_power;
+                self.voter_history.idea_against = self.voter_data.voting_power;
             }
         };
 
@@ -69,7 +74,7 @@ impl<'info> Voting<'info> {
             }
         };
 
-        let _ask_for = match ask_for {
+        let _ask_vote = match ask_for {
             true => {
                 self.voting_state.ask_for += self.voter_data.voting_power;
                 self.voter_history.ask_for = self.voter_data.voting_power;

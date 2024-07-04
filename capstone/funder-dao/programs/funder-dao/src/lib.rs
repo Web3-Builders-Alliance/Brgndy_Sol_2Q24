@@ -9,7 +9,7 @@ pub use constants::*;
 pub use instructions::*;
 pub use state::*;
 
-declare_id!("82WtAv6MYbr18mKCPCgjrDzCYgqPVr1bdSQdXzfgweB1");
+declare_id!("G3MmuVQXaQBJEfGXuHzox23eyPbWNVdSnGomxxpWfFfX");
 
 #[program]
 pub mod funder_dao {
@@ -43,5 +43,18 @@ pub mod funder_dao {
 
     pub fn unstake(ctx: Context<Staking>) -> Result<()> {
         ctx.accounts.unstake()
+    }
+
+    pub fn vote(
+        ctx: Context<Voting>,
+        idea_for: bool,
+        strategy_for: bool,
+        ask_for: bool,
+    ) -> Result<()> {
+        ctx.accounts.vote(idea_for, strategy_for, ask_for)
+    }
+
+    pub fn finish_voting(ctx: Context<FinishVoting>) -> Result<()> {
+        ctx.accounts.finish()
     }
 }

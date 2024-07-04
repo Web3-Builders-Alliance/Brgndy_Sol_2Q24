@@ -8,7 +8,6 @@ pub struct VoterHistory {
     pub strategy_against: u64,
     pub ask_for: u64,
     pub ask_against: u64,
-    pub bump: u8,
 }
 
 impl Space for VoterHistory {

@@ -8,4 +8,8 @@ pub enum FunderError {
     NoUnstakingError,
     #[msg("Unstaking has not been finished yet!")]
     StillUnstakingError,
+    #[msg("Voting still going!")]
+    VotingStillGoingError,
+    #[msg("Voting has been ended!")]
+    VotingEndedError,
 }

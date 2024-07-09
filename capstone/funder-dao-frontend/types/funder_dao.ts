@@ -5,7 +5,7 @@
  * IDL can be found at `target/idl/funder_dao.json`.
  */
 export type FunderDao = {
-  "address": "82WtAv6MYbr18mKCPCgjrDzCYgqPVr1bdSQdXzfgweB1",
+  "address": "6bZMZ4ErD1ZziPqadLQ7Nfr1c1UrQ27iuE4hogFpSsqA",
   "metadata": {
     "name": "funderDao",
     "version": "0.1.0",
@@ -772,8 +772,18 @@ export type FunderDao = {
     },
     {
       "code": 6003,
+      "name": "votingStillGoingError",
+      "msg": "Voting still going!"
+    },
+    {
+      "code": 6004,
       "name": "votingEndedError",
       "msg": "Voting has been ended!"
+    },
+    {
+      "code": 6005,
+      "name": "notEnoughToUnstakeError",
+      "msg": "You don't have enough tokens to unstake!"
     }
   ],
   "types": [
@@ -833,6 +843,10 @@ export type FunderDao = {
             "type": {
               "option": "u64"
             }
+          },
+          {
+            "name": "voterStakedAtaBump",
+            "type": "u8"
           }
         ]
       }
@@ -865,10 +879,6 @@ export type FunderDao = {
           {
             "name": "askAgainst",
             "type": "u64"
-          },
-          {
-            "name": "bump",
-            "type": "u8"
           }
         ]
       }

@@ -9,7 +9,7 @@ pub use constants::*;
 pub use instructions::*;
 pub use state::*;
 
-declare_id!("G3MmuVQXaQBJEfGXuHzox23eyPbWNVdSnGomxxpWfFfX");
+declare_id!("6bZMZ4ErD1ZziPqadLQ7Nfr1c1UrQ27iuE4hogFpSsqA");
 
 #[program]
 pub mod funder_dao {

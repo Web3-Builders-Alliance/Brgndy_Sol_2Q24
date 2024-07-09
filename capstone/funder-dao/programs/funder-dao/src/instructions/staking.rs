@@ -77,6 +77,11 @@ impl<'info> Staking<'info> {
                 && self.voter_data.unstaking_end_timestamp == None,
             FunderError::SecondUnstakingError
         );
+
+        require!(
+            amount <= self.voter_staked_ata.amount,
+            FunderError::NotEnoughToUnstakeError
+        );
         self.voter_data.is_unstaking = true;
         self.voter_data.voting_power -= amount;
         self.voter_data.unstaking_amount = Some(amount);
@@ -96,7 +101,7 @@ impl<'info> Staking<'info> {
         require!(
             Clock::get().unwrap().unix_timestamp
                 >= self.voter_data.unstaking_end_timestamp.unwrap(),
-            FunderError::StillUnstakingError
+            FunderError::NotEnoughToUnstakeError
         );
         let cpi_accounts = Transfer {
             from: self.voter_staked_ata.to_account_info(),

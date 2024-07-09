@@ -13,7 +13,7 @@ const CreateProject: React.FC = () => {
     const handleSubmit = async (e: any) => {
         e.preventDefault();
         try {
-            await createVoting(productName)
+            await createVoting("testdemo")
 
         } catch (e) {
             console.log(e);

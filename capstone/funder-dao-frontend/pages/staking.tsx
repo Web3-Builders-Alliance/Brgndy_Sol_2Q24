@@ -1,26 +1,34 @@
-import React, { useState } from 'react'; // Import React explicitly
+import React, { useState } from 'react';
 import { NextPage } from 'next';
 import styled from 'styled-components';
 import GlobalStyles from '../styles/GlobalStyles';
 import { useSolana } from '../hooks/useSolana';
 
-
 const Staking: NextPage = () => {
   const [stakedTokens, setStakedTokens] = useState(0);
   const [inputValue, setInputValue] = useState('');
-  const { staking } = useSolana();
+  const [unstakeAmount, setUnstakeAmount] = useState('');
+  const [showUnstakePopup, setShowUnstakePopup] = useState(false);
+  const { staking, startUnstaking } = useSolana();
 
   const handleStake = async () => {
     try {
-      await staking(inputValue)
-
+      await staking(inputValue);
+      // Update stakedTokens state here if needed
     } catch (e) {
       console.log(e);
     }
-
-
   };
 
+  const handleUnstake = async () => {
+    try {
+      await startUnstaking(unstakeAmount);
+      // Update stakedTokens state here if needed
+      setShowUnstakePopup(false);
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
   return (
     <>
@@ -39,7 +47,23 @@ const Staking: NextPage = () => {
         </StakingForm>
         <StakedTokens>
           <h3>Staked Tokens: {stakedTokens}</h3>
+          <UnstakeButton onClick={() => setShowUnstakePopup(true)}>Unstake Tokens</UnstakeButton>
         </StakedTokens>
+        {showUnstakePopup && (
+          <Popup>
+            <PopupContent>
+              <CloseButton onClick={() => setShowUnstakePopup(false)}>X</CloseButton>
+              <h2>Enter amount to unstake</h2>
+              <Input
+                type="number"
+                value={unstakeAmount}
+                onChange={(e) => setUnstakeAmount(e.target.value)}
+                placeholder="Enter unstaking amount"
+              />
+              <UnstakeConfirmButton onClick={handleUnstake}>Confirm Unstake</UnstakeConfirmButton>
+            </PopupContent>
+          </Popup>
+        )}
       </Main>
     </>
   );
@@ -96,6 +120,59 @@ const StakeButton = styled.button`
 const StakedTokens = styled.div`
   margin-top: 40px;
   color: #333; /* Solid color */
+`;
+
+const UnstakeButton = styled.button`
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 10px;
+  &:hover {
+    background-color: #0056b3;
+  }
+`;
+
+const Popup = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+const PopupContent = styled.div`
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  text-align: center;
+  position: relative;
+`;
+
+const CloseButton = styled.button`
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+`;
+
+const UnstakeConfirmButton = styled.button`
+  background-color: #e60023;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 20px;
+  &:hover {
+    background-color: #b3001a;
+  }
 `;
 
 export default Staking;

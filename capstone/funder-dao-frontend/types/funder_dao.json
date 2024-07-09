@@ -1,5 +1,5 @@
 {
-  "address": "82WtAv6MYbr18mKCPCgjrDzCYgqPVr1bdSQdXzfgweB1",
+  "address": "6bZMZ4ErD1ZziPqadLQ7Nfr1c1UrQ27iuE4hogFpSsqA",
   "metadata": {
     "name": "funder_dao",
     "version": "0.1.0",
@@ -766,8 +766,18 @@
     },
     {
       "code": 6003,
+      "name": "VotingStillGoingError",
+      "msg": "Voting still going!"
+    },
+    {
+      "code": 6004,
       "name": "VotingEndedError",
       "msg": "Voting has been ended!"
+    },
+    {
+      "code": 6005,
+      "name": "NotEnoughToUnstakeError",
+      "msg": "You don't have enough tokens to unstake!"
     }
   ],
   "types": [
@@ -827,6 +837,10 @@
             "type": {
               "option": "u64"
             }
+          },
+          {
+            "name": "voter_staked_ata_bump",
+            "type": "u8"
           }
         ]
       }
@@ -859,10 +873,6 @@
           {
             "name": "ask_against",
             "type": "u64"
-          },
-          {
-            "name": "bump",
-            "type": "u8"
           }
         ]
       }

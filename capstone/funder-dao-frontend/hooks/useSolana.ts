@@ -10,21 +10,17 @@ import { TOKEN_PROGRAM_ID, getAssociatedTokenAddress } from "@solana/spl-token";
 
 export const useSolana = () => {
   const { SystemProgram, LAMPORTS_PER_SOL } = web3;
-  //const program = anchor.workspace.FunderDao as Program<FunderDao>;
-
   const getProvider = useSolanaGetProvider();
-  ///const daysToUnstake = new anchor.BN("30");
   const program = new Program(idl as FunderDao, getProvider.provider);
-  const projectName = process.env.NEXT_PUBLIC_PROJECT_MAKER as string;
+  const projectName = "test3"
   const platformAuth = new web3.PublicKey(process.env.NEXT_PUBLIC_PLATFORM_AUTH as string);
   const projectMaker = new web3.PublicKey(process.env.NEXT_PUBLIC_PROJECT_MAKER as string);
   const voter = new web3.PublicKey(process.env.NEXT_PUBLIC_VOTER as string);
 
-
   const platformMint = new web3.PublicKey(
     process.env.NEXT_PUBLIC_PLATFORM_MINT as string
   );
-  const platformSeed = new anchor.BN("111");
+  const platformSeed = new anchor.BN("125556");
 
   const config = anchor.web3.PublicKey.findProgramAddressSync(
     [
@@ -43,8 +39,6 @@ export const useSolana = () => {
     program.programId
   )[0];
 
-
-
   const voterData = anchor.web3.PublicKey.findProgramAddressSync(
     [
       voterStackedAta.toBuffer(),
@@ -56,8 +50,6 @@ export const useSolana = () => {
   const initialize = async (
     daysToUnstake: string,
   ) => {
-    const provider = await getProvider;
-    const { wallet } = provider.provider;
 
     try {
       await program.methods.initialize(platformSeed, new anchor.BN(daysToUnstake))
@@ -72,6 +64,7 @@ export const useSolana = () => {
       console.log(error)
     }
   };
+
   const staking = async (
     stakingAmount: string,
   ) => {
@@ -145,11 +138,12 @@ export const useSolana = () => {
     const timestamp = await provider.connection.getBlockTime(slot)
     const endingTimestamp = timestamp!! + 30 * 86400;
 
+
     const votingState = anchor.web3.PublicKey.findProgramAddressSync(
       [
         config.toBuffer(),
         projectMaker.toBuffer(),
-        anchor.utils.bytes.utf8.encode(projectName),
+        anchor.utils.bytes.utf8.encode("testname1"),
       ],
       program.programId
     )[0];
@@ -184,7 +178,31 @@ export const useSolana = () => {
     console.log("EndingTime", votingStateFetched.votingEnd.toString());
 
   };
-  return { initialize, staking, createVoting, vote };
+
+  const startUnstaking = async (unstakingAmount: string) => {
+
+    const provider = await getProvider;
+    const slot = await provider.connection.getSlot();
+    const timestamp = await provider.connection.getBlockTime(slot)
+    const voterAta = await getAssociatedTokenAddress(platformMint, voter);
+
+    try {
+      await program.methods.startUnstaking(new anchor.BN(+unstakingAmount * 1_000_000))
+        .accountsPartial({
+          voter,
+          config,
+          platformMint,
+          voterAta: voterAta,
+          voterStakedAta: voterStackedAta,
+          voterData: voterData
+        })
+        .rpc();
+
+    } catch (error) {
+      console.log(error)
+    }
+  };
+  return { initialize, staking, createVoting, vote, startUnstaking };
 };
 
 

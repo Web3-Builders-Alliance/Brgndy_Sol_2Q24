@@ -12,4 +12,6 @@ pub enum FunderError {
     VotingStillGoingError,
     #[msg("Voting has been ended!")]
     VotingEndedError,
+    #[msg("You don't have enough tokens to unstake!")]
+    NotEnoughToUnstakeError,
 }

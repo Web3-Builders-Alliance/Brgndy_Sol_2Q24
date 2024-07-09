@@ -5,7 +5,7 @@ resolution = true
 skip-lint = false
 
 [programs.localnet]
-funder_dao = "G3MmuVQXaQBJEfGXuHzox23eyPbWNVdSnGomxxpWfFfX"
+funder_dao = "6bZMZ4ErD1ZziPqadLQ7Nfr1c1UrQ27iuE4hogFpSsqA"
 
 [registry]
 url = "https://api.apr.dev"

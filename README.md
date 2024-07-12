@@ -1,4 +1,4 @@
-# Crowdfunding DAO Project
+# FunderDAO
 
 Welcome to the FunderDAO! This project leverages the power of Solana Anchor and Next.js to create a crowdfunding DAO where users can stake tokens and vote for projects to be listed. 
 

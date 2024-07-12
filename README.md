@@ -72,7 +72,7 @@ Ensure you have the following installed:
 
 5. Start the frontend application:
    ```bash
-   cd ../frontend
+   cd ../funder-dao-frontend
    yarn dev
    ```
 
